@@ -1,0 +1,9 @@
+# Required list of hosts to serve.
+# This sets the `-h` argument and creates content directories.
+gopher_hosts: []
+
+# Path for hosting Gopher content.
+gopher_data_dir: /srv/gopher
+
+# Optional string of additional arguments to pass to the Gophernicus service.
+gopher_start_args: ''

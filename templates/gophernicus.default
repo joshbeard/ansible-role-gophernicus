@@ -1,0 +1,5 @@
+{% set _args = [] %}
+{% for host in gopher_hosts %}
+{% set _= _args.append("-h " + host) %}
+{% endfor %}
+OPTIONS=-r {{ gopher_data_dir }} {{ _args | join(' ') }} -nu -nf {{ gopher_start_args }}
