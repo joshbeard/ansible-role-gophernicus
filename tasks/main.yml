@@ -1,8 +1,47 @@
 ---
+- name: Create group
+  group:
+    name: "{{ gophernicus_group }}"
+    state: present
+
+- name: Create User
+  user:
+    name: "{{ gophernicus_user }}"
+    state: present
+    shell: /sbin/nologin
+    group: "{{ gophernicus_group }}"
+
 - name: Install Gophernicus
   ansible.builtin.package:
     name: gophernicus
     state: present
+  when: ansible_os_family == "Debian"
+
+- name: Download file with check (sha256)
+  get_url:
+    url: "https://github.com/gophernicus/gophernicus/releases/download/{{ gophernicus_version }}/gophernicus-{{ gophernicus_version }}-x86_64-static"
+    dest: /usr/local/bin/gophernicus
+    checksum: "sha256:{{ gophernicus_sha256 }}"
+  when: ansible_os_family != "Debian"
+
+- name: Systemd service
+  ansible.builtin.template:
+    dest: /etc/systemd/system/gophernicus@.service
+    src: gophernicus.service
+    owner: root
+    group: root
+    mode: "0644"
+  notify: reload systemd
+
+- name: Systemd socket
+  ansible.builtin.template:
+    dest: /etc/systemd/system/gophernicus.socket
+    src: gophernicus.socket
+    owner: root
+    group: root
+    mode: "0644"
+  notify: reload systemd
+
 - name: create override folder for gophernicus@.service
   ansible.builtin.file:
     path: /etc/systemd/system/gophernicus@.service.d

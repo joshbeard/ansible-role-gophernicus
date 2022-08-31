@@ -1,0 +1,16 @@
+[Unit]
+Description=Gophernicus gopher server
+Requires=gophernicus.socket
+
+[Service]
+EnvironmentFile=/etc/default/gophernicus
+ExecStart=/usr/local/bin/gophernicus $OPTIONS
+SuccessExitStatus=1
+StandardInput=socket
+User={{ gophernicus_user }}
+Group={{ gophernicus_group }}
+Type=simple
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

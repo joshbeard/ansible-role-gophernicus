@@ -7,3 +7,10 @@ gopher_data_dir: /srv/gopher
 
 # Optional string of additional arguments to pass to the Gophernicus service.
 gopher_start_args: ''
+
+gophernicus_user: gopher
+gophernicus_group: gopher
+
+# Used for downloading the binary. Applies to non-Debian systems.
+gophernicus_version: '3.1'
+gophernicus_sha256: ce13ede8ca7b01db10fc900d856e94e265385997bec56551187728d96371f848
